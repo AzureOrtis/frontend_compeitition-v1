@@ -258,8 +258,6 @@
 
   function signOut(){ localStorage.removeItem('tf_user'); window.location.href='login.html'; }
 
-  document.getElementById('sidebar-name').textContent = user.name;
-  document.getElementById('sidebar-avatar').textContent = user.name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
 
   function getAccounts()    { return JSON.parse(localStorage.getItem('tf_accounts')||'[]'); }
   function saveAccounts(a)  { localStorage.setItem('tf_accounts',JSON.stringify(a)); }
