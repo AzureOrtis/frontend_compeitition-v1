@@ -85,7 +85,7 @@ document.addEventListener('keydown', e => {
   }
 });
 (function setActiveNav() {
-  const page = (location.pathname.split('/').pop() || 'index.html').toLowerCase();
+  const page = (location.pathname.split('/').pop() || 'dashboard.html').toLowerCase();
   document.querySelectorAll('.nav-item').forEach(item => {
     const href = item.getAttribute('href');
     if (!href || href === '#' || href.startsWith('#')) return;

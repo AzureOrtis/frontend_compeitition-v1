@@ -294,11 +294,11 @@
 
 <script>
   const user = JSON.parse(localStorage.getItem('tf_user')||'null');
-  if (!user || user.role !== 'student') window.location.href = 'login.html';
+  if (!user || user.role !== 'student') window.location.href = 'index.html';
 
   const STUDENT_NAME = user?.name || '';
 
-  function signOut(){ localStorage.removeItem('tf_user'); window.location.href='login.html'; }
+  function signOut(){ localStorage.removeItem('tf_user'); window.location.href='index.html'; }
 
   document.getElementById('sidebar-name').textContent = STUDENT_NAME;
   document.getElementById('sidebar-avatar').textContent = STUDENT_NAME.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();

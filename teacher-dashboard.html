@@ -254,9 +254,9 @@
   
   
   const user = JSON.parse(localStorage.getItem('tf_user')||'null');
-  if (!user || (user.role !== 'teacher' && user.role !== 'educator')) window.location.href = 'login.html';
+  if (!user || (user.role !== 'teacher' && user.role !== 'educator')) window.location.href = 'index.html';
 
-  function signOut(){ localStorage.removeItem('tf_user'); window.location.href='login.html'; }
+  function signOut(){ localStorage.removeItem('tf_user'); window.location.href='index.html'; }
 
 
   function getAccounts()    { return JSON.parse(localStorage.getItem('tf_accounts')||'[]'); }
