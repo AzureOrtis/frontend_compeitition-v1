@@ -85,8 +85,11 @@ document.addEventListener('keydown', e => {
   }
 });
 (function setActiveNav() {
-  const page = location.pathname.split('/').pop() || 'index.html';
+  const page = (location.pathname.split('/').pop() || 'index.html').toLowerCase();
   document.querySelectorAll('.nav-item').forEach(item => {
-    if (item.innerHTML.includes(page)) item.classList.add('active');
+    const href = item.getAttribute('href');
+    if (!href || href === '#' || href.startsWith('#')) return;
+    const target = href.split('/').pop().toLowerCase();
+    item.classList.toggle('active', target === page);
   });
 })();
