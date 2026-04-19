@@ -4,8 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>TaskFlow – Student Dashboard</title>
-  <link rel="stylesheet" href="css/style" />
-  <link rel="stylesheet" href="css/pages" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/pages.css" />
   <style>
     .role-badge{display:inline-flex;align-items:center;gap:.4rem;background:rgba(34,197,94,.12);color:#4ade80;border:1px solid rgba(34,197,94,.25);border-radius:20px;font-size:.72rem;font-weight:600;padding:.2rem .7rem;letter-spacing:.04em;text-transform:uppercase}
     .badge{display:inline-block;padding:.2rem .6rem;border-radius:20px;font-size:.72rem;font-weight:600}
@@ -118,7 +118,7 @@
       <a href="#" class="nav-item" onclick="showTab('assigned');return false;"><span class="nav-icon">📋</span> Assigned Tasks<span class="nav-badge" id="sidebar-task-count">0</span></a>
       <a href="#" class="nav-item" onclick="showTab('schedule');return false;"><span class="nav-icon">📅</span> My Schedule</a>
       <a href="#" class="nav-item" onclick="showTab('own');return false;"><span class="nav-icon">✅</span> My Tasks</a>
-      <a href="settings.html" class="nav-item" onclick="showTab('settings');return false;"><span class="nav-icon">⚙️</span> Settings</a>
+      <a href="#" class="nav-item" onclick="showTab('settings');return false;"><span class="nav-icon">⚙️</span> Settings</a>
     </div>
     <div class="sidebar-footer">
       <div class="user-card">
@@ -137,7 +137,7 @@
       <h1 class="topbar-title">Student Dashboard</h1>
       <div class="topbar-actions topbar-meta">
         <span class="role-badge">🎓 Student</span>
-        <button class="signout-btn" type="button">Sign out</button>
+        <button class="signout-btn" type="button" onclick="signOut()">Sign out</button>
       </div>
     </header>
 
@@ -170,9 +170,9 @@
             </div>
           </div>
           <div class="cal-nav">
-            <button class="cal-nav-btn" type="button">‹</button>
+            <button class="cal-nav-btn" type="button" onclick="changeMonth(-1)">‹</button>
             <button class="cal-nav-btn" onclick="goToday()">Today</button>
-            <button class="cal-nav-btn" type="button">›</button>
+            <button class="cal-nav-btn" type="button" onclick="changeMonth(1)">›</button>
           </div>
         </div>
         <div class="cal-grid-wrap"><div class="cal-grid" id="cal-grid"></div></div>
@@ -182,7 +182,7 @@
             <input type="text" id="sc-title" class="form-control" placeholder="Event title" style="flex:2;min-width:140px;" />
             <input type="datetime-local" id="sc-time" class="form-control" style="flex:2;min-width:180px;" />
             <input type="text" id="sc-notes" class="form-control" placeholder="Notes (optional)" style="flex:2;min-width:140px;" />
-            <button class="btn" style="background:#a855f7;color:#fff;flex-shrink:0;" type="button">+ Add</button>
+            <button class="btn" style="background:#a855f7;color:#fff;flex-shrink:0;" type="button" onclick="saveScheduleEvent()">+ Add</button>
           </div>
           <div id="sc-error" style="color:#f87171;font-size:.8rem;margin-top:.4rem;display:none;"></div>
         </div>
@@ -190,7 +190,7 @@
 
       <div id="panel-own" style="display:none;">
         <div style="display:flex;justify-content:flex-end;margin-bottom:1rem;">
-          <button class="btn btn-primary-green" type="button">+ Add Task</button>
+          <button class="btn btn-primary-green" type="button" onclick="openOwnTaskModal()">+ Add Task</button>
         </div>
         <div id="own-list"></div>
       </div>
@@ -211,7 +211,7 @@
                   <div class="form-group" style="margin:0;"><label class="form-label">Display Name</label><input type="text" class="form-control" id="s-name" /></div>
                   <div class="form-group" style="margin:0;"><label class="form-label">Email</label><input type="email" class="form-control" id="s-email" /></div>
                   <div class="form-group" style="margin:0;"><label class="form-label">New Password</label><input type="password" class="form-control" id="s-pass" placeholder="Leave blank to keep current" /></div>
-                  <div><button class="btn btn-primary-green" type="button">Save Changes</button></div>
+                  <div><button class="btn btn-primary-green" type="button" onclick="saveProfile()">Save Changes</button></div>
                 </div>
               </div>
             </div>
@@ -220,7 +220,7 @@
                 <div class="settings-card-header"><div class="settings-card-title">Notifications</div></div>
                 <div class="settings-card-body">
                   <div class="settings-row"><div><div class="settings-row-label">Task Due Reminders</div><div class="settings-row-sub">Get notified when a task is due soon</div></div><label class="toggle"><input type="checkbox" checked /><span class="toggle-slider"></span></label></div>
-                  <div class="settings-row"><div><div class="settings-row-label">Overdue Alerts</div><div class="settings-row-sub">Alert when tasks pass their due date</div></div><label class="toggle"><input type="checkbox" checked /></label></div>
+                  <div class="settings-row"><div><div class="settings-row-label">Overdue Alerts</div><div class="settings-row-sub">Alert when tasks pass their due date</div></div><label class="toggle"><input type="checkbox" checked /><span class="toggle-slider"></span></label></div>
                 </div>
               </div>
             </div>
@@ -243,7 +243,7 @@
               <div class="settings-card danger-zone">
                 <div class="settings-card-header"><div class="settings-card-title" style="color:#f87171;">⚠️ Danger Zone</div></div>
                 <div class="settings-card-body">
-                  <div class="settings-row"><div><div class="settings-row-label">Delete my personal tasks</div><div class="settings-row-sub">Permanently removes all your personal tasks.</div></div><button class="btn btn-danger" type="button">Delete All</button></div>
+                  <div class="settings-row"><div><div class="settings-row-label">Delete my personal tasks</div><div class="settings-row-sub">Permanently removes all your personal tasks.</div></div><button class="btn btn-danger" type="button" onclick="clearMyTasks()">Delete All</button></div>
                 </div>
               </div>
             </div>
@@ -305,11 +305,32 @@
 
   function getAccounts()    { return JSON.parse(localStorage.getItem('tf_accounts')||'[]'); }
   function saveAccounts(a)  { localStorage.setItem('tf_accounts',JSON.stringify(a)); }
-  function getAssignments() { return JSON.parse(localStorage.getItem('tf_assignment')||'[]'); }
+  function getAssignments() {
+    let v = localStorage.getItem('tf_assignments');
+    if (!v || v === '[]') {
+      const old = localStorage.getItem('tf_assignment');
+      if (old && old !== '[]') {
+        localStorage.setItem('tf_assignments', old);
+        localStorage.removeItem('tf_assignment');
+        v = localStorage.getItem('tf_assignments');
+      }
+    }
+    return JSON.parse(v || '[]');
+  }
 
-  
-  function getSubmissions() { return JSON.parse(localStorage.getItem('tf_submisions')||'[]'); }
-  function saveSubmissions(a){ localStorage.setItem('tf_submisions',JSON.stringify(a)); }
+  function getSubmissions() {
+    let v = localStorage.getItem('tf_submissions');
+    if (!v || v === '[]') {
+      const old = localStorage.getItem('tf_submisions');
+      if (old && old !== '[]') {
+        localStorage.setItem('tf_submissions', old);
+        localStorage.removeItem('tf_submisions');
+        v = localStorage.getItem('tf_submissions');
+      }
+    }
+    return JSON.parse(v || '[]');
+  }
+  function saveSubmissions(a){ localStorage.setItem('tf_submissions',JSON.stringify(a)); }
 
   function getSchedule()    { return JSON.parse(localStorage.getItem('tf_schedule_'+STUDENT_NAME)||'[]'); }
   function saveSchedule(a)  { localStorage.setItem('tf_schedule_'+STUDENT_NAME,JSON.stringify(a)); }
@@ -346,7 +367,7 @@
     const el=document.getElementById('assigned-list');
     if(!assignments.length){ el.innerHTML=`<div class="empty-state"><div style="font-size:2rem;margin-bottom:.5rem;">📋</div>No tasks assigned to you yet.</div>`; return; }
     el.innerHTML=assignments.map(a=>{
-      const sub=submissions.find(s=>s.taskId==a.id&&s.studentName===STUDENT_NAME);
+      const sub=submissions.find(s=>String(s.taskId)===String(a.id)&&s.studentName===STUDENT_NAME);
       const today=new Date().toISOString().split('T')[0];
 
       const overdue=a.dueDate&&a.dueDate<=today&&!sub;
@@ -388,8 +409,12 @@
     showToast('Task submitted!');
   }
 
-  let calYear=new Date().getFullYear(), calMonth=3;
+  let calYear=new Date().getFullYear(), calMonth=new Date().getMonth();
   function changeMonth(d){
+    calMonth += d;
+    if (calMonth > 11) { calMonth = 0; calYear++; }
+    if (calMonth < 0) { calMonth = 11; calYear--; }
+    renderCalendar();
   }
   function goToday(){ calYear=new Date().getFullYear(); calMonth=new Date().getMonth(); renderCalendar(); }
 
@@ -401,9 +426,9 @@
     const byDate={};
     function addEv(ds,ev){ if(!ds)return; if(!byDate[ds])byDate[ds]=[]; byDate[ds].push(ev); }
 
-    const assignments=getAssignments().filter(a=>a.assignedTo===STUDENT_NAME);
+    const assignments=getAssignments().filter(a=>a.student===STUDENT_NAME);
     const submissions=getSubmissions();
-    assignments.forEach(a=>{ if(!a.dueDate)return; const sub=submissions.find(s=>s.taskId==a.id&&s.studentName===STUDENT_NAME); addEv(a.dueDate,{ label:a.title, cls:sub?'type-teacher-submitted':'type-teacher-'+(a.priority||'medium'), type:'📋 Teacher task', due:a.dueDate, priority:a.priority, status:sub?'Submitted ✓':'Pending', note:a.desc }); });
+    assignments.forEach(a=>{ if(!a.dueDate)return; const sub=submissions.find(s=>String(s.taskId)===String(a.id)&&s.studentName===STUDENT_NAME); addEv(a.dueDate,{ label:a.title, cls:sub?'type-teacher-submitted':'type-teacher-'+(a.priority||'medium'), type:'📋 Teacher task', due:a.dueDate, priority:a.priority, status:sub?'Submitted ✓':'Pending', note:a.desc }); });
     schedule.forEach(e=>{ const ds=e.time?e.time.split('T')[0]:null; if(!ds)return; const timeStr=e.time?new Date(e.time).toLocaleTimeString('en-AU',{hour:'2-digit',minute:'2-digit'}):''; addEv(ds,{ label:(timeStr?timeStr+' ':'')+e.title, cls:'type-personal', type:'📅 Personal event', due:ds, status:'', note:e.notes }); });
     ownTasks.filter(t=>t.dueDate).forEach(t=>{ addEv(t.dueDate,{ label:t.title, cls:'type-own', type:'✅ My task', due:t.dueDate, priority:t.priority, status:t.done?'Done ✓':'Pending', note:t.desc }); });
 
@@ -428,7 +453,7 @@
   function closePopup(){ document.getElementById('cal-popup').classList.remove('open'); }
   document.addEventListener('click',()=>closePopup());
 
-  function saveScheduleEven(){
+  function saveScheduleEvent(){
     const title=document.getElementById('sc-title').value.trim(), time=document.getElementById('sc-time').value, err=document.getElementById('sc-error');
     if(!title||!time){ err.textContent='Title and date/time are required.'; err.style.display='block'; return; }
     err.style.display='none';
@@ -449,7 +474,7 @@
   function toggleOwnTask(id){ saveOwnTasks(getOwnTasks().map(t=>t.id==id?{...t,done:!t.done}:t)); renderOwnTasks(); }
   function deleteOwnTask(id){ saveOwnTasks(getOwnTasks().filter(t=>t.id!=id)); renderOwnTasks(); renderStats(); }
 
-  function renderStats(){ const a=getMyAssignments(), s=getSubmissions().filter(s=>s.studentName===STUDENT_NAME); document.getElementById('stat-total').textContent=a.length; document.getElementById('stat-submitted').textContent=s.length; document.getElementById('stat-outstanding').textContent=Math.max(0,a.length-s.length); document.getElementById('stat-own').textContent=getOwnTasks().length; document.getElementById('sidebar-task-count').textContent=Math.max(0,a.length-s.length); }
+  function renderStats(){ const a=getMyAssignments(), subs=getSubmissions().filter(s=>s.studentName===STUDENT_NAME); const submitted=a.filter(assign=>subs.some(sub=>String(sub.taskId)===String(assign.id))).length; document.getElementById('stat-total').textContent=a.length; document.getElementById('stat-submitted').textContent=submitted; document.getElementById('stat-outstanding').textContent=Math.max(0,a.length-submitted); document.getElementById('stat-own').textContent=getOwnTasks().length; document.getElementById('sidebar-task-count').textContent=Math.max(0,a.length-submitted); }
   function showSettingsTab(t){
     document.querySelectorAll('.settings-panel').forEach(el=>el.style.display='none');
     const target=document.getElementById('sp-'+t);
@@ -465,7 +490,7 @@
     document.getElementById('s-name').value=me.name||'';
     document.getElementById('s-email').value=me.email||'';
     document.getElementById('s-pass').value='';
-    document.getElementById('s-task-count').textContent=getAssignments().length+' tasks assigned';
+    document.getElementById('s-task-count').textContent=getMyAssignments().length+' tasks assigned to me';
     document.getElementById('s-own-count').textContent=getOwnTasks().length+' personal tasks';
     showSettingsTab('profile');
   }
